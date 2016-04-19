@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+
+    <cxf:cxfEndpoint id="proxy"
+        address="/Proxy"
+        endpointName="service:ProxyPort"
+        serviceName="service:Proxy"
+        wsdlURL="META-INF/wsdl/proxy.wsdl"
+        xmlns:service="http://services.samples/xsd">
+        
+        <cxf:properties>
+            <entry key="dataFormat" value="MESSAGE" />
+        </cxf:properties>
+    </cxf:cxfEndpoint>
+
+    <cxf:cxfEndpoint id="backend"
+        address="http://localhost:9000/service/Backend"
+        endpointName="service:ProxyPort"
+        serviceName="service:Proxy"
+        wsdlURL="META-INF/wsdl/proxy.wsdl"
+        bindingId="service:EchoServiceSOAP11Binding"
+        xmlns:service="http://services.samples/xsd">
+        
+        <cxf:properties>
+            <entry key="dataFormat" value="MESSAGE" />
+        </cxf:properties>
+    </cxf:cxfEndpoint>
+
+    <bean id="proxyRouteBuilder" class="com.github.muellerc.techforum.proxy.ProxyRouteBuilder" init-method="init">
+        <property name="redeliveryDelay" value="${redeliveryDelay)" />
+        <property name="maximumRedeliveries" value="${maximumRedeliveries)" />
+    </bean>
+
+    <camel:camelContext>
+        <camel:routeBuilder ref="proxyRouteBuilder" />
+    </camel:camelContext>
+</beans>
