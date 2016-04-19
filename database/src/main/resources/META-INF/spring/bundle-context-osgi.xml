@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:ctx="http://www.springframework.org/schema/context"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" 
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
+
+    <ctx:property-placeholder properties-ref="com.github.muellerc.techforum.proxy.database.cfg.with.defaults"/>
+	
+	<osgix:cm-properties id="com.github.muellerc.techforum.proxy.database.cfg.with.defaults" persistent-id="com.github.muellerc.techforum.proxy.database">
+		<prop key="database.initialSize">2</prop>
+		<prop key="database.maxIdle">2</prop>
+		<prop key="database.minIdle">1</prop>
+		<prop key="database.maxActive">5</prop>
+		<prop key="database.maxWait">30000</prop>
+		<prop key="database.timeBetweenEvictionRunsMillis">300000</prop>
+        <prop key="database.connection.properties"></prop>
+	</osgix:cm-properties>	
+	
+	<osgi:service ref="datasource" interface="javax.sql.DataSource">
+		<osgi:service-properties>
+			<entry key="database" value="SQL-DATABASE" />
+		</osgi:service-properties>
+	</osgi:service>
+</beans>

@@ -16,6 +16,8 @@
 
     <modules>
         <module>proxy</module>
+        <module>database</module>
+        <module>messaging</module>
     </modules>
 
     <build>
