@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns="http://www.company.de/techforum/data"
+			elementFormDefault="qualified"
+			targetNamespace="http://www.company.de/techforum/data">
+	<xsd:element name="getBookPriceRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="isbn" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="getBookPriceResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="isbn" type="xsd:string"/>
+				<xsd:element name="price" type="xsd:decimal"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="serviceException">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="fault" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

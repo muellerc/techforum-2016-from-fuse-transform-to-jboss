@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <deployment>
+        <dependencies>
+            <module name="org.apache.cxf" services="import">
+                <imports>
+                    <include path="**" />
+                </imports>
+            </module>
+            <module name="org.apache.cxf.impl" services="import">
+                <imports>
+                    <include path="**" />
+                </imports>
+            </module>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

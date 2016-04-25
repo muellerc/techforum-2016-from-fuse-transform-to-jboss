@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      xmlns:data="http://www.company.de/techforum/data"
+      xmlns:service="http://www.company.de/techforum/service"
+      targetNamespace="http://www.company.de/techforum/service">
+  <wsdl:types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.company.de/techforum/data" schemaLocation="techforum-sample.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="getBookPriceRequest">
+    <wsdl:part element="data:getBookPriceRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getBookPriceResponse">
+    <wsdl:part element="data:getBookPriceResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="serviceException">
+    <wsdl:part element="data:serviceException" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="PricingServicePort">
+    <wsdl:operation name="getBookPrice">
+      <wsdl:input message="service:getBookPriceRequest" name="getBookPriceRequest"/>
+      <wsdl:output message="service:getBookPriceResponse" name="getBookPriceResponse"/>
+      <wsdl:fault message="service:serviceException" name="serviceException"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="PricingServiceSoapBinding" type="service:PricingServicePort">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getBookPrice">
+      <wsdlsoap:operation soapAction="http://www.company.de/techforum/service/getBookPrice"/>
+      <wsdl:input name="getBookPriceRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBookPriceResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="serviceException">
+        <wsdlsoap:fault name="serviceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="PricingService">
+    <wsdl:port binding="service:PricingServiceSoapBinding" name="PricingService">
+      <wsdlsoap:address location="http://localhost:8080/services/PricingService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
