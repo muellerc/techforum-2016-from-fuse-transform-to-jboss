@@ -1,0 +1,36 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+           xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+           xmlns:jdbc="http://www.springframework.org/schema/jdbc">
+
+    <manifest>
+      Export-Service = javax.sql.DataSource
+    </manifest>
+
+    <!-- Allows us to use system properties as variables in this configuration file -->
+    <ext:property-placeholder />
+
+    <bean id="dataSourceFactory" class="org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean" init-method="afterPropertiesSet" destroy-method="destroy">
+        <property name="databaseName" value="bookDetails" />
+        <property name="databaseType" value="DERBY" />
+        <property name="databasePopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="scripts">
+                    <list>
+                        <bean class="org.springframework.core.io.FileSystemResource">
+                            <argument value="${karaf.home}/etc/CREATE_BOOK_DETAILS_DATABASE_SCHEMA.sql" />
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="bookDetails" factory-ref="dataSourceFactory" factory-method="getObject" />
+
+    <service ref="bookDetails" interface="javax.sql.DataSource">
+        <service-properties>
+            <entry key="database" value="BOOK-DETAILS" />
+        </service-properties>
+    </service>
+</blueprint>

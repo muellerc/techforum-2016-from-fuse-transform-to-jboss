@@ -13,6 +13,131 @@
     <groupId>com.github.muellerc.techforum-2016-from-fuse-transform-to-jboss</groupId>
     <artifactId>book-search-fuse</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>bundle</packaging>
 
-    
+    <properties>
+        <wlsi.osgi.export>
+            com.github.muellerc.techforum2016.fuse;version=${project.version}
+        </wlsi.osgi.export>
+        <wlsi.osgi.import>
+            !com.github.muellerc.techforum2016.fuse,
+            META-INF.cxf,
+            org.springframework.beans.factory.config,
+            org.apache.cxf,
+            org.apache.cxf.binding,
+            org.apache.cxf.binding.corba,
+            org.apache.cxf.binding.soap,
+            org.apache.cxf.binding.soap.spring,
+            org.apache.cxf.bus,
+            org.apache.cxf.bus.resource,
+            org.apache.cxf.bus.spring,
+            org.apache.cxf.buslifecycle,
+            org.apache.cxf.catalog,
+            org.apache.cxf.configuration,
+            org.apache.cxf.configuration.spring,
+            org.apache.cxf.endpoint,
+            org.apache.cxf.headers,
+            org.apache.cxf.management,
+            org.apache.cxf.management.jmx,
+            org.apache.cxf.phase,
+            org.apache.cxf.resource,
+            org.apache.cxf.service.factory,
+            org.apache.cxf.transport,
+            org.apache.cxf.transport.http,
+            org.apache.cxf.transport.http.policy,
+            org.apache.cxf.transport.http_jetty,
+            org.apache.cxf.transport.jms,
+            org.apache.cxf.transports.http,
+            org.apache.cxf.workqueue,
+            org.apache.cxf.wsdl,
+            org.apache.cxf.wsdl11,
+            *
+        </wlsi.osgi.import>
+        <wlsi.osgi.dynamic>*</wlsi.osgi.dynamic>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-cxf</artifactId>
+            <version>2.10.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jms</artifactId>
+            <version>2.10.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-camel</artifactId>
+            <version>5.7.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+
+                <configuration>
+                    <instructions>
+                        <Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
+                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>${wlsi.osgi.export}</Export-Package>
+                        <Import-Package>${wlsi.osgi.import}</Import-Package>
+                        <Implementation-Title>TechForum 2016</Implementation-Title>
+                        <Implementation-Version>${project.version}</Implementation-Version>
+                        <Karaf-Info>${project.artifactId}=${project.version}</Karaf-Info>
+                    </instructions>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>2.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/techforum-sample.wsdl</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${basedir}/src/main/resources/techforum-sample-binding.xml</bindingFile>
+                                    </bindingFiles>
+                                    <extraargs>
+                                        <extraarg>-verbose</extraarg>
+                                        <xjcarg>-xjc-b,${basedir}/src/main/resources/techforum-sample.xjb</xjcarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <compilerVersion>1.7</compilerVersion>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

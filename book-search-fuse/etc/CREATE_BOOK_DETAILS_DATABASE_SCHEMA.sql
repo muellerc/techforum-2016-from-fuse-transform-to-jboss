@@ -1,0 +1,8 @@
+CREATE TABLE BOOK (
+  ISBN       VARCHAR(10) NOT NULL,
+  TITLE      VARCHAR(40),
+  AUTHOR     VARCHAR(40),
+  CONSTRAINT primary_key PRIMARY KEY (ISBN)
+);
+
+INSERT INTO BOOK (ISBN, TITLE, AUTHOR) VALUES ('3000481109', 'Helga Hengge', 'Abenteuer Seven Summits');
