@@ -33,6 +33,7 @@ Getting the book details for the book with isbn 3000481109:
  curl -i -X GET -H "Accept: application/json" http://localhost:8181/book-search-fuse/v1/books/3000481109
 
 
+## install book search jboss on JBoss
 
 The JBoss example is tested with:
 - Wildfly 10.0.0.Final
