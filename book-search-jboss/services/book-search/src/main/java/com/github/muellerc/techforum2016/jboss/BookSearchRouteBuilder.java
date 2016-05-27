@@ -2,12 +2,14 @@ package com.github.muellerc.techforum2016.jboss;
 
 import com.github.muellerc.techforum2016.jboss.pricing.model.GetBookPriceRequest;
 import com.github.muellerc.techforum2016.jboss.pricing.service.PricingService;
+import org.apache.activemq.camel.component.ActiveMQEndpoint;
 import org.apache.camel.Endpoint;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.cdi.ContextName;
 import org.apache.camel.cdi.Uri;
 import org.apache.camel.component.cxf.CxfEndpoint;
 import org.apache.camel.component.cxf.common.message.CxfConstants;
+import org.apache.camel.component.jms.JmsEndpoint;
 
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
