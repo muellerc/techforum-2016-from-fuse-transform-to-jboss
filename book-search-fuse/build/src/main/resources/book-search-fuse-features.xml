@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="wlsi-premium-gateway-${project.version}">
+    <repository>mvn:org.apache.activemq/activemq-karaf/${org.apache.activemq.version}/xml/features</repository>
+    <repository>mvn:org.apache.camel.karaf/apache-camel/${org.apache.camel.version}/xml/features</repository>
+    <repository>mvn:org.apache.cxf.karaf/apache-cxf/${org.apache.cxf.version}/xml/features</repository>
+
+    <!-- <feature name="wlsi-premium-gateway-activemq-connection-factory" version="${project.version}" resolver="(obr)" start-level="60">
+        <bundle>blueprint:file:etc/activemq-connection-factory.xml</bundle>
+    </feature> -->
+
+    <feature name="book-search-fuse-mocks" version="${project.version}" resolver="(obr)" start-level="60">
+        <feature version="${org.springframework.version}">spring-jdbc</feature>
+        <bundle dependency="false">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/10.12.1.1_1</bundle>
+        <bundle>blueprint:file:etc/book-details-datasource.xml</bundle>
+    </feature>
+
+    <feature name="book-search-fuse" version="${project.version}" resolver="(obr)" start-level="60">
+        <feature version="${org.apache.camel.version}">camel-core</feature>
+        <feature version="${org.apache.camel.version}">camel-spring</feature>
+        <!-- <feature version="${org.apache.camel.version}">camel-jaxb</feature> -->
+        <feature version="${org.apache.camel.version}">camel-cxf</feature>
+        <feature version="${org.springframework.version}">spring-jdbc</feature>
+        <!-- <bundle dependency="false">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jsr303-api-1.0.0/${org.apache.servicemix.specs.version}</bundle> -->
+        <bundle dependency="false">mvn:com.github.muellerc.techforum-2016-from-fuse-transform-to-jboss.book-search-fuse.interfaces/pricing-service/${project.version}</bundle>
+        <bundle dependency="false">mvn:com.github.muellerc.techforum-2016-from-fuse-transform-to-jboss.book-search-fuse.services/book-search/${project.version}</bundle>
+    </feature>
+
+    <feature name="book-search-fuse-all" version="${project.version}" resolver="(obr)" start-level="60">
+        <bundle>blueprint:file:etc/activemq-connection-factory.xml</bundle>
+        <feature version="${project.version}">book-search-fuse-mocks</feature>
+
+        <feature version="${project.version}">book-search-fuse</feature>
+    </feature>
+</features>

@@ -14,6 +14,20 @@
     <artifactId>book-search-fuse</artifactId>
     <packaging>pom</packaging>
 
+    <properties>
+        <org.apache.activemq.version>5.9.1</org.apache.activemq.version>
+        <org.apache.camel.version>2.12.5</org.apache.camel.version>
+        <org.apache.cxf.version>2.7.13</org.apache.cxf.version>
+        <org.apache.karaf.version>2.3.9</org.apache.karaf.version>
+        <org.apache.servicemix.version>5.0.6</org.apache.servicemix.version>
+        <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+    </properties>
+
     <modules>
         <module>interfaces</module>
         <module>services</module>
@@ -37,9 +51,18 @@
                         <Implementation-Title>TechForum 2016</Implementation-Title>
                         <Implementation-Version>${project.version}</Implementation-Version>
                         <Karaf-Info>${project.artifactId}=${project.version}</Karaf-Info>
+                        <_failok>true</_failok>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+    </repositories>
 </project>

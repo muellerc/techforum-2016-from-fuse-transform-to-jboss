@@ -19,11 +19,11 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
 
     <jaxrs:server id="jaxrsServer"
-        address="${jaxrsServerEndpointUri}"
+        address="/v1"
         staticSubresourceResolution="true">
 
         <jaxrs:serviceBeans>
-            <bean class="com.github.muellerc.techforum2016.fuse.BooksResource" />
+            <bean class="com.github.muellerc.techforum2016.fuse.BooksResourceImpl" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider" />
@@ -42,7 +42,7 @@
         serviceClass="com.github.muellerc.techforum2016.jboss.pricing.service.PricingServicePort"
         endpointName="service:PricingService"
         serviceName="service:PricingService"
-        wsdlURL="http://www.company.de/techforum/service"
+        wsdlURL="META-INF/priceservice/techforum-sample.wsdl"
         xmlns:service="http://www.company.de/techforum/service">
 
         <camel-cxf:properties>
@@ -51,8 +51,8 @@
     </camel-cxf:cxfEndpoint>
 
     <bean id="bookSearchRouteBuilder" class="com.github.muellerc.techforum2016.fuse.BookSearchRouteBuilder">
-        <property name="imageService" value="${image-service.url}" />
-        <property name="pricingService" value="${pricing-service.url}" />
+        <property name="imageService" value="activemq:queue:IMAGE" />
+        <property name="pricingService" value="cxf:bean:pricingService" />
         <property name="bookRepository">
             <bean class="com.github.muellerc.techforum2016.fuse.BookRepository">
                 <property name="dataSource" ref="dataSource" />
